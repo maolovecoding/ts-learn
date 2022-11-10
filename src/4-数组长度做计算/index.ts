@@ -159,3 +159,5 @@ type CamelCaseArr<Arr extends unknown[] = []> = Arr extends [
   : Arr;
 
 type a13 = CamelCaseArr<["a_b_c", "c_dd_ee"]>;
+
+export {}
