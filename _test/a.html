@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  内容：<input type="text" id="int">
+  <button id="btn">发送消息</button>
+  <iframe id="fr" src="./b.html" frameborder="1" width="400px" height="400px"></iframe>
+  <script>
+    document.getElementById('btn').addEventListener('click', () => {
+      const value = document.getElementById('int').value
+      // postMessage 发送数据
+      const fr = document.getElementById('fr').contentWindow
+      fr.postMessage(value, 'http://127.0.0.1:5502/_test/b.html')
+      console.log('发送了 ' + value)
+    })
+  </script>
+</body>
+
+</html>
