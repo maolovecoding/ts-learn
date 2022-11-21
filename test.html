@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      height: 200px;
+      width: 0;
+      background-color: aqua;
+      transition: all 0.1s;
+    }
+  </style>
+</head>
+
+<body>
+  <div></div>
+  <script>
+    // const div = document.querySelector('div')
+    // let width = 0
+    // const animationWidth = (time) => {
+    //   width += 10
+    //   div.style.width = width + 'px'
+    //   div.innerHTML = (width / 10) + '%'
+    //   // 如果页面渲染了两秒时间过去了还没执行完 就不执行动画了
+    //   if (width < 1000 && time < 2000) requestAnimationFrame(animationWidth)
+    // }
+    // requestAnimationFrame(animationWidth)
+    const sleep = (time) => {
+      const now = Date.now()
+      while (Date.now() < now + time) { }
+    }
+    const worksQueue = [
+      () => {
+        console.log('任务A开始')
+        sleep(20)
+        console.log('任务A结束')
+      },
+      () => {
+        console.log('任务B开始')
+        sleep(20)
+        console.log('任务B结束')
+      },
+      () => {
+        console.log('任务C开始')
+        sleep(20)
+        console.log('任务C结束')
+      },
+      () => {
+        console.log('任务D开始')
+        sleep(20)
+        console.log('任务D结束')
+      },
+      () => {
+        console.log('任务E开始')
+        sleep(20)
+        console.log('任务E结束')
+      }
+    ]
+    const doSomething = (idleDeadline) => {
+      // idleDeadline.didTimeout // 是否过期 过期了就强制执行该任务
+      // idleDeadline.timeRemaining() // 返回值是剩余时间
+      while ((idleDeadline.timeRemaining() > 0 || idleDeadline.didTimeout) && worksQueue.length) {
+        console.log(idleDeadline.didTimeout)
+        console.log(idleDeadline.timeRemaining())
+        const work = worksQueue.shift()
+        work()
+      }
+      // 还有任务
+      if (worksQueue.length) requestIdleCallback(doSomething, { timeout: 10 })
+    }
+    requestIdleCallback(doSomething, { timeout: 100 })
+  </script>
+</body>
+
+</html>
